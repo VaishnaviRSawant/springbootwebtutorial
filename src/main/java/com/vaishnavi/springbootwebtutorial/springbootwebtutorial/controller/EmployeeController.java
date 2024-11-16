@@ -16,7 +16,7 @@ public class EmployeeController {
 //    public String getMySuperSecretMessage(){
 //        return "Secret message :hello";
 
-    private final EmployeeRepository employeeRepository;
+
 
     public EmployeeController(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
