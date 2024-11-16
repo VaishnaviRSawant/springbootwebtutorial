@@ -25,18 +25,19 @@ public class EmployeeController {
 
 
     @GetMapping ("/{employeeId}")
-    public EmployeeEntity getEmployeeById(@PathVariable (name = "employeeId")Long id){
+    public EmployeeDTO getEmployeeById(@PathVariable (name = "employeeId")Long id){
         return employeeService.getEmployeeById(id);
     }
 
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false,name = "inputAge")Integer age, @RequestParam(required = false) String sortBy){
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false,name = "inputAge")Integer age,
+                                             @RequestParam(required = false) String sortBy){
+        return employeeService.getAllEmployees();
     }
 
     @PostMapping
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee){
-       return employeeRepository.save(inputEmployee);
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+       return employeeService.createNewEmployee(inputEmployee);
     }
 
 
