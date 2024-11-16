@@ -3,6 +3,7 @@ package com.vaishnavi.springbootwebtutorial.springbootwebtutorial.controller;
 import com.vaishnavi.springbootwebtutorial.springbootwebtutorial.DTO.EmployeeDTO;
 import com.vaishnavi.springbootwebtutorial.springbootwebtutorial.entities.EmployeeEntity;
 import com.vaishnavi.springbootwebtutorial.springbootwebtutorial.repositories.EmployeeRepository;
+import com.vaishnavi.springbootwebtutorial.springbootwebtutorial.servises.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -16,16 +17,16 @@ public class EmployeeController {
 //    public String getMySuperSecretMessage(){
 //        return "Secret message :hello";
 
+    private final EmployeeService employeeService;
 
-
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
 
     @GetMapping ("/{employeeId}")
     public EmployeeEntity getEmployeeById(@PathVariable (name = "employeeId")Long id){
-        return employeeRepository.findById(id).orElse(null);
+        return employeeService.getEmployeeById(id);
     }
 
     @GetMapping
