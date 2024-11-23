@@ -2,12 +2,14 @@ package com.vaishnavi.springbootwebtutorial.springbootwebtutorial.controller;
 
 import com.vaishnavi.springbootwebtutorial.springbootwebtutorial.DTO.EmployeeDTO;
 import com.vaishnavi.springbootwebtutorial.springbootwebtutorial.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -25,13 +27,16 @@ public class EmployeeController {
     }
 
 
+
     @GetMapping ("/{employeeId}")
-    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable (name = "employeeId")Long id){
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId")Long id){
         Optional<EmployeeDTO> employeeDTO =  employeeService.getEmployeeById(id);
        return employeeDTO
                .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
                .orElse(ResponseEntity.notFound().build());
     }
+
+
 
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees(@RequestParam(required = false,name = "inputAge")Integer age,
@@ -40,14 +45,14 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+    public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody @Valid EmployeeDTO inputEmployee){
     EmployeeDTO savedEmployee = employeeService.createNewEmployee(inputEmployee);
     return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
 
     @PutMapping(path = "/{employeeId}")
-     public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId)
+     public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody @Valid EmployeeDTO employeeDTO, @PathVariable Long employeeId)
     {
         return ResponseEntity.ok(employeeService.updateEmployeeById(employeeId,employeeDTO));
     }
@@ -69,4 +74,6 @@ public class EmployeeController {
         if(employeeDTO==null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(employeeDTO);
     }
+
+    
 }
